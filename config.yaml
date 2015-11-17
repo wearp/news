@@ -1,0 +1,5 @@
+svchost: :8080
+dbuser: news
+dbpassword: ""
+dbhost: localhost
+dbname: news
