@@ -13,9 +13,6 @@ type NewsResource struct {
   db gorm.DB
 }
 
-// POST News and calculate
-// PUT News and calculate
-
 func (nr *NewsResource) CalculateNews(c *gin.Context) {
   var news api.News
 

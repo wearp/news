@@ -47,7 +47,6 @@ func (s *NewService) Run(cfg Config) error {
 
   r := gin.Default()
 
-  // add, get, and delete a todo
   r.POST("/news", newsResource.CalculateNews)
   r.GET("/news/:id", newsResource.GetNews)
   r.DELETE("/news/:id", newsResource.DeleteNews)
