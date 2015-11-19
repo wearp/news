@@ -1,17 +1,26 @@
 ## NEWS
-A RESTful microservice for the NHS National Early Warning Score (NEWS)
+A microservice for the NHS National Early Warning Score (NEWS)
 
 ### Installation
 
-#### Build Service
+#### Build the Service
       
       make build
 
-#### Build Database
+#### Build the Database (PostgreSQL)
+   
+      ./cli/server/server --config config.yaml migratedb
+
+Before building the database, you will need to create one that corresponds to `dbuser`, `dbname`, etc. as defined in `config.yaml`.
+    
+#### Run the Service
+
+      ./cli/server/server --config config.yaml server
 
 ### HTTP API
+Documents the HTTP API for the service.
 
-#### Create NEWS observation
+#### NEWS observation
 ---
 _This will create, fetch or delete a NEWS observation. Upon creation, the NEWS score and clinical risk will be calculated._
 
@@ -25,7 +34,7 @@ _This will create, fetch or delete a NEWS observation. Upon creation, the NEWS s
 
 * **URL Params**
   
-  **Required (GET, DELETE):**
+  **Required (`GET`, `DELETE`):**
   
   `id=[integer]`
 
@@ -33,7 +42,8 @@ _This will create, fetch or delete a NEWS observation. Upon creation, the NEWS s
 
   Example:
 
-  `{
+  ```
+  {
       "patient_id": [integer],
       "location_id": [integer],
       "user_id": [integer],
@@ -43,13 +53,14 @@ _This will create, fetch or delete a NEWS observation. Upon creation, the NEWS s
       "o2_saturation": [integer],
       "o2_supplement": [bool],
       "temperature": [float],
-      "systolic_bp": [integer],
-  }`
+      "systolic_bp": [integer]
+  }
+  ```
 
 * **Success Response**
 
   * **Code:** 201 (`POST`) <br />
-    **Content:** `
+    **Content:** 
 
   * **Code:** 200 (`GET`) <br />
     **Content:**

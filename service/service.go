@@ -41,7 +41,6 @@ func (s *NewService) Run(cfg Config) error {
     return err
   }
   db.SingularTable(true)
-  db.CreateTable(&api.News{})
 
   newsResource := &NewsResource{db: db}
 
