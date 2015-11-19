@@ -20,7 +20,7 @@ Before building the database, you will need to create one that corresponds to `d
 ### HTTP API
 Documents the HTTP API for the service.
 
-#### NEWS observation
+#### `GET` | `POST` | `DELETE` /news
 ---
 _This will create, fetch or delete a NEWS observation. Upon creation, the NEWS score and clinical risk will be calculated._
 
@@ -28,20 +28,20 @@ _This will create, fetch or delete a NEWS observation. Upon creation, the NEWS s
 
   _/news_ or _/news/:id_
   
-* **Method**
+* **Methods**
 
   `GET` | `POST` | `DELETE`
 
 * **URL Params**
   
-  **Required (`GET`, `DELETE`):**
+  * **Required (`GET`, `DELETE`):**
   
-  `id=[integer]`
+    `id=[integer]`
 
 * **Data Params**
 
   Example:
-
+  
   ```
   {
       "patient_id": [integer],
@@ -60,20 +60,35 @@ _This will create, fetch or delete a NEWS observation. Upon creation, the NEWS s
 * **Success Response**
 
   * **Code:** 201 (`POST`) <br />
-    **Content:** 
+    **Content:**
+    
+    ```
+    {"id":1,"patient_id":3,"user_id":4,"location_id":1,"avpu":"A","heart_rate":60,"respiratory_rate":12,"o2_saturation":97,"o2_supplement":false,"temperature":36.1,"systolic_bp":0,"score":3,"risk":"Medium","status":"complete","created":1447957870,"due":0}
+    ```
 
   * **Code:** 200 (`GET`) <br />
     **Content:**
-
-  * **Code:** 204 (`DELETE`) <br />
-    **Content:**
+    
+    ```
+    {"id":4,"patient_id":3,"user_id":4,"location_id":1,"avpu":"A","heart_rate":60,"respiratory_rate":12,"o2_saturation":97,"o2_supplement":false,"temperature":36.1,"systolic_bp":0,"score":3,"risk":"Medium","status":"complete","created":1447959927,"due":0}
+    ```
+  
+  * **Code:** 204 (`DELETE`) 
 
 * **Error Response**
 
-  * **Code:** 404 (`GET` | `DELETE`)
+  * **Code:** 404 (`GET` | `DELETE`) <br />
     **Content**:
+    
+    ```
+    {"error": "not found"}
+    ```
 
 * **Sample Call**
+
+  ```
+  curl -H "Content-Type: application/json" -X POST -d '{"location_id": 1, "patient_id": 3, "user_id": 4, "avpu": "A", "heart_rate": 60, "respiratory_rate": 12, "o2_saturation": 97, "temperature": 36.1, "o2_supplement": false}' http://localhost:8080/news
+  ```
 
 * **Notes**
 

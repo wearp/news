@@ -1,5 +1,5 @@
 svchost: :8080
-dbuser: newsuser
+dbuser: news
 dbpassword: ""
 dbhost: localhost
-dbname: newsdb
+dbname: news
