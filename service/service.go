@@ -46,9 +46,10 @@ func (s *NewService) Run(cfg Config) error {
 
   r := gin.Default()
 
-  r.POST("/news", newsResource.CalculateNews)
+  r.POST("/news", newsResource.CreateNews)
   r.GET("/news/:id", newsResource.GetNews)
   r.DELETE("/news/:id", newsResource.DeleteNews)
+  r.PUT("/news/:id", newsResource.PutNews)
 
   r.Run(cfg.SvcHost)
 

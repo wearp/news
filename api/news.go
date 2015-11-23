@@ -1,29 +1,24 @@
 package api
 
+import "time"
+
 type News struct {
   Id              int32   `json:"id"`
-  PatientId       int32   `json:"patient_id"`
-  UserId          int32   `json:"user_id"`
-  LocationId      int32   `json:"location_id"`
-  AVPU            string  `json:"avpu"`
-  HeartRate       int32   `json:"heart_rate"`
-  RespiratoryRate int32   `json:"respiratory_rate"`
-  O2Saturation    int32   `json:"o2_saturation"`
-  O2Supplement    bool    `json:"o2_supplement"`
-  Temperature     float32 `json:"temperature"`
-  SystolicBP      int32   `json:"systolic_bp"`
+  PatientId       int32   `json:"patient_id" binding:"required`
+  SpellId         int32   `json:"spell_id" binding:"required"`
+  UserId          int32   `json:"user_id" binding:"required"`
+  LocationId      int32   `json:"location_id" binding:"required"`
+  AVPU            string  `json:"avpu" binding:"required"`
+  HeartRate       int32   `json:"heart_rate" binding:"required"`
+  RespiratoryRate int32   `json:"respiratory_rate" binding:"required"`
+  O2Saturation    int32   `json:"o2_saturation" binding:"required"`
+  O2Supplement    bool    `json:"o2_supplement"` 
+  Temperature     float32 `json:"temperature" binding:"required"`
+  SystolicBP      int32   `json:"systolic_bp" binding:"required"`
   Score           int32   `json:"score"`
   Risk            string  `json:"risk"`
-  Status          string  `json:"status"`
-  Created         int32   `json:"created"`
-  Due             int32   `json:"due"`
+  Completed       int32   `json:"completed"`
 }
-
-const (
-  ScheduledStatus string = "scheduled"
-  ActiveStatus    string = "active"
-  CompleteStatus  string = "complete"
-)
 
 type NewsMultiple []News
 
@@ -38,7 +33,7 @@ func (n *News) CalculateRisk() {
 
   n.Score = avpu_score + hr_score + resp_score + temp_score + syst_score +
             sat_score + sup_score
-  
+    
   if n.Score >= 0 && n.Score <= 4 {
     switch {
       default: n.Risk = "Low"
@@ -62,6 +57,7 @@ func (n *News) CalculateRisk() {
     } else {
       n.Risk = "High"
   }
+  n.Completed = int32(time.Now().Unix())
 }
 
 func avpuScore(avpu string) int32 {
