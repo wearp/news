@@ -48,6 +48,7 @@ func (s *NewService) Run(cfg Config) error {
 
   r.POST("/news", newsResource.CreateNews)
   r.GET("/news/:id", newsResource.GetNews)
+  r.GET("/news", newsResource.SearchNews)
   r.DELETE("/news/:id", newsResource.DeleteNews)
   r.PUT("/news/:id", newsResource.PutNews)
 

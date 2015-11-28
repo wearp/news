@@ -20,9 +20,9 @@ Before building the database, you will need to create one that corresponds to `d
 ### HTTP API
 Documents the HTTP API for the service.
 
-#### `GET` | `POST` | `DELETE` /news
+#### `GET` | `POST` | `PUT` | `DELETE` /news
 ---
-_This will create, fetch or delete a NEWS observation. Upon creation, the NEWS score and clinical risk will be calculated._
+_This will fetch, create, replace or delete a NEWS observation. Upon creation, the NEWS score and clinical risk will be calculated alongwith the time of calculation._
 
 * **URL**
 
@@ -30,7 +30,7 @@ _This will create, fetch or delete a NEWS observation. Upon creation, the NEWS s
   
 * **Methods**
 
-  `GET` | `POST` | `DELETE`
+  `GET` | `POST` | `DELETE` | `PUT`
 
 * **URL Params**
   
@@ -46,6 +46,7 @@ _This will create, fetch or delete a NEWS observation. Upon creation, the NEWS s
   {
       "patient_id": [integer],
       "location_id": [integer],
+      "spell_id": [integer],
       "user_id": [integer],
       "avpu": [string],
       "heart_rate": [integer],
@@ -58,26 +59,39 @@ _This will create, fetch or delete a NEWS observation. Upon creation, the NEWS s
   ```
 
 * **Success Response**
-
+  
+  * **Code:** 200 (`GET` | `PUT`) <br />
+    **Content:**
+    
+    ```
+    {"id":6,"patient_id":3,"spell_id":5,"user_id":4,"location_id":1,"avpu":"A","heart_rate":60,"respiratory_rate":12,"o2_saturation":97,"o2_supplement":false,"temperature":20.1,"systolic_bp":30,"score":6,"risk":"Medium","completed":1448439536}
+   ```
+ 
   * **Code:** 201 (`POST`) <br />
     **Content:**
     
     ```
-    {"id":1,"patient_id":3,"user_id":4,"location_id":1,"avpu":"A","heart_rate":60,"respiratory_rate":12,"o2_saturation":97,"o2_supplement":false,"temperature":36.1,"systolic_bp":0,"score":3,"risk":"Medium","status":"complete","created":1447957870,"due":0}
+    {"id":6,"patient_id":3,"spell_id":5,"user_id":4,"location_id":1,"avpu":"A","heart_rate":60,"respiratory_rate":12,"o2_saturation":97,"o2_supplement":false,"temperature":20.1,"systolic_bp":30,"score":6,"risk":"Medium","completed":1448439536}
     ```
-
-  * **Code:** 200 (`GET`) <br />
-    **Content:**
-    
-    ```
-    {"id":4,"patient_id":3,"user_id":4,"location_id":1,"avpu":"A","heart_rate":60,"respiratory_rate":12,"o2_saturation":97,"o2_supplement":false,"temperature":36.1,"systolic_bp":0,"score":3,"risk":"Medium","status":"complete","created":1447959927,"due":0}
-    ```
-  
-  * **Code:** 204 (`DELETE`) 
+ 
+  * **Code:** 204 (`DELETE`)  
 
 * **Error Response**
+  
+  * **Code:** 400 (`GET` | `DELETE` | `PUT` | `POST` ) <br />
+    **Content**:
+    
+    ```
+    {"error": "problem decoding query parameter sent"}
+    ```
+   
+    **Content (`PUT` | `POST` _only_)**:
+    
+    ```
+    {"error": "problem decoding body"} 
+    ```
 
-  * **Code:** 404 (`GET` | `DELETE`) <br />
+  * **Code:** 404 (`GET` | `DELETE` | `PUT`) <br />
     **Content**:
     
     ```
@@ -87,8 +101,58 @@ _This will create, fetch or delete a NEWS observation. Upon creation, the NEWS s
 * **Sample Call**
 
   ```
-  curl -H "Content-Type: application/json" -X POST -d '{"location_id": 1, "patient_id": 3, "user_id": 4, "avpu": "A", "heart_rate": 60, "respiratory_rate": 12, "o2_saturation": 97, "temperature": 36.1, "o2_supplement": false}' http://localhost:8080/news
+  curl -H "Content-Type: application/json" -X POST -d '{"location_id": 1, "patient_id": 3, "user_id": 4, "spell_id": 5, "avpu": "A", "heart_rate": 60, "respiratory_rate": 12, "o2_saturation": 97, "temperature": 36.1, "o2_supplement": false}' http://localhost:8080/news
   ```
 
 * **Notes**
+
+#### ``GET`` /news?
+---
+_This will fetch a list of NEWS observations based on a given querystring parameters. Returns an empty list if no News observations match the parameters provided._
+
+* **URL**
+
+  _/news?_
+  
+* **Methods**
+
+  `GET` 
+
+* **URL Params**
+  
+  * **Optional:**
+  
+    `risk=[string]`
+    `patient_id=[integer]`
+    `spell_id=[integer]`
+    `location_id=[integer]`
+    `user_id=[integer]`
+
+* **Success Response**
+
+  * **Code:** 200 (`GET`) <br />
+    **Content:**
+    
+    ```
+    [{"id":6,"patient_id":3,"spell_id":5,"user_id":4,"location_id":1,"avpu":"A","heart_rate":60,"respiratory_rate":12,"o2_saturation":97,"o2_supplement":false,"temperature":20.1,"systolic_bp":30,"score":6,"risk":"Medium","completed":1448439536},{"id":7,"patient_id":3,"spell_id":5,"user_id":4,"location_id":1,"avpu":"A","heart_rate":60,"respiratory_rate":12,"o2_saturation":97,"o2_supplement":false,"temperature":20.1,"systolic_bp":30,"score":6,"risk":"Medium","completed":1448439539}]
+   ```
+
+* **Error Response**
+  
+  * **Code:** 400 (`GET`) <br />
+    **Content**:
+    
+    ```
+    {"error": "problem decoding query parameter sent"}
+    ```
+
+* **Sample Call**
+
+  ```
+
+  curl -X GET http://localhost:8080/news?risk=medium&spell_id=3&location_id=1
+  ```
+
+
+
 
