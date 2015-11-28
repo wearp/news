@@ -106,6 +106,7 @@ _This will fetch, create, replace or delete a NEWS observation. Upon creation, t
   ```
 
 * **Notes**
+  _None_
 
 #### ``GET`` /news?
 ---
@@ -151,5 +152,10 @@ _Fetches a list of NEWS observations based on given querystring parameters. Retu
 
   ```
 
-  curl -X GET http://localhost:8080/news?risk=medium&spell_id=3&location_id=1
+  curl http://localhost:8080/news?risk=medium&spell_id=3&location_id=1
   ```
+
+* **Notes**
+  Returns all News observations if no parameters are given.
+
+
