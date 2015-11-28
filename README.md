@@ -105,7 +105,7 @@ _This will fetch, create, replace or delete a NEWS observation. Upon creation, t
   curl -H "Content-Type: application/json" -X POST -d '{"location_id": 1, "patient_id": 3, "user_id": 4, "spell_id": 5, "avpu": "A", "heart_rate": 60, "respiratory_rate": 12, "o2_saturation": 97, "temperature": 36.1, "o2_supplement": false}' http://localhost:8080/news
   ```
 
-* **Notes**
+* **Notes** <br />
   _None_
 
 #### ``GET`` /news?
@@ -137,7 +137,7 @@ _Fetches a list of NEWS observations based on given querystring parameters. Retu
     
     ```
     [{"id":6,"patient_id":3,"spell_id":5,"user_id":4,"location_id":1,"avpu":"A","heart_rate":60,"respiratory_rate":12,"o2_saturation":97,"o2_supplement":false,"temperature":20.1,"systolic_bp":30,"score":6,"risk":"Medium","completed":1448439536},{"id":7,"patient_id":3,"spell_id":5,"user_id":4,"location_id":1,"avpu":"A","heart_rate":60,"respiratory_rate":12,"o2_saturation":97,"o2_supplement":false,"temperature":20.1,"systolic_bp":30,"score":6,"risk":"Medium","completed":1448439539}]
-   ```
+    ```
 
 * **Error Response**
   
@@ -151,11 +151,10 @@ _Fetches a list of NEWS observations based on given querystring parameters. Retu
 * **Sample Call**
 
   ```
-
   curl http://localhost:8080/news?risk=medium&spell_id=3&location_id=1
   ```
 
-* **Notes**
+* **Notes** <br />
   Returns all News observations if no parameters are given.
 
 
