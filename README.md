@@ -78,14 +78,15 @@ _This will fetch, create, replace or delete a NEWS observation. Upon creation, t
 
 * **Error Response**
   
-  * **Code:** 400 (`GET` | `DELETE` | `PUT` | `POST` ) <br />
+  * **Code:** 400 (`GET` | `DELETE` | `PUT`) <br />
     **Content**:
     
     ```
     {"error": "problem decoding query parameter sent"}
     ```
-   
-    **Content (`PUT` | `POST` _only_)**:
+  
+  * **Code:** 400 (`PUT` | `POST`) <br />
+    **Content**:
     
     ```
     {"error": "problem decoding body"} 
@@ -108,7 +109,7 @@ _This will fetch, create, replace or delete a NEWS observation. Upon creation, t
 
 #### ``GET`` /news?
 ---
-_This will fetch a list of NEWS observations based on a given querystring parameters. Returns an empty list if no News observations match the parameters provided._
+_Fetches a list of NEWS observations based on given querystring parameters. Returns an empty list if no News observations match the parameters provided._
 
 * **URL**
 
@@ -122,10 +123,10 @@ _This will fetch a list of NEWS observations based on a given querystring parame
   
   * **Optional:**
   
-    `risk=[string]`
-    `patient_id=[integer]`
-    `spell_id=[integer]`
-    `location_id=[integer]`
+    `risk=[string]` <br />
+    `patient_id=[integer]` <br />
+    `spell_id=[integer]` <br />
+    `location_id=[integer]` <br />
     `user_id=[integer]`
 
 * **Success Response**
@@ -152,7 +153,3 @@ _This will fetch a list of NEWS observations based on a given querystring parame
 
   curl -X GET http://localhost:8080/news?risk=medium&spell_id=3&location_id=1
   ```
-
-
-
-
